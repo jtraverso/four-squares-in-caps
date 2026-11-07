@@ -1,0 +1,15 @@
+{
+  "challenge_module": "FourSquaresCapsChallenge",
+  "solution_module": "FourSquaresCapsSolution",
+  "theorem_names": [
+    "FourSquaresInCaps.jacobi_four_squares_odd",
+    "FourSquaresInCaps.four_squares_in_caps"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

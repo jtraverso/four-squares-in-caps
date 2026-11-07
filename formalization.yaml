@@ -1,0 +1,152 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Four squares in caps, and Jacobi's four-square theorem for odd N"
+  description: >-
+    A Lean 4 / Mathlib proof of two results on sums of four squares. (1) Jacobi's four-square
+    theorem for odd N: the number of x : Fin 4 → ℤ with x₀² + x₁² + x₂² + x₃² = N equals
+    8 ∑_{d ∣ N} d (jacobi_four_squares_odd), following the proof of Andrews, Ekhad and Zeilberger
+    (1993): two finite q-series identities proved by WZ telescoping, combined into a finite
+    identity that is read modulo X^{N+1} in ℚ⟦X⟧. (2) Four squares in caps
+    (four_squares_in_caps): for every unit vector q ∈ ℝ⁴ and every δ > 0 there is M₀ such that
+    every odd m ≥ M₀ is β₀² + β₁² + β₂² + β₃² with β : Fin 4 → ℤ and |βᵢ − √m qᵢ| ≤ δ √m for all
+    i, i.e. the integer points of the sphere of radius √m meet every cap of fixed angular radius.
+    The proof uses the Duke–Friedlander–Iwaniec delta method (in Heath-Brown's form) with Gaussian
+    weights: an exact formula through the theta transformation, Fourier bounds for the cut-off
+    weight, and the Weil bound for Kloosterman sums, imported from the Weil Bounds Toolkit
+    (PALOMAR-2026-11-03-000018) as a lake dependency. The main term is not evaluated: it depends
+    on the center of the cap only through its norm, so comparing caps with a grid of centers
+    reduces the theorem to the lower bound r₄(m) ≥ 8m for odd m, which (1) provides. All
+    constants are effective but not explicit in the statement (M₀ is existential). Two
+    statements; no definitions beyond Mathlib's.
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.NT"]
+  msc2020: ["11E25", "11P55", "11L05", "05A30"]
+
+repository:
+  role: "substantive-development"
+
+sources:
+  - title: "A short proof of Jacobi's formula for the number of representations of an integer as a sum of four squares"
+    authors:
+      - "George E. Andrews"
+      - "Shalosh B. Ekhad"
+      - "Doron Zeilberger"
+    id: "arXiv:math/9206203"
+    type: "paper"
+    location: "Amer. Math. Monthly 100 (1993), 273–276; Lemma (a), (b) and identity (3)"
+    relationship: "formalizes"
+    note: >-
+      The proof of Jacobi's theorem formalized here, restricted to odd N. Two details are
+      repaired in the formalization: the printed certificate G1 is singular at k = −n−1 and is
+      used in an equivalent removable form, and the sums over k ∈ [−n, n] are folded to k ≥ 0
+      (the summand of (a) is even in k and its certificate is antisymmetric about −1/2).
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "A new form of the circle method, and its application to quadratic forms"
+    authors:
+      - "D. R. Heath-Brown"
+    id: "doi:10.1515/crll.1996.481.149"
+    type: "paper"
+    location: "J. reine angew. Math. 481 (1996), 149–206"
+    relationship: "background"
+    note: >-
+      The delta-method expansion of the Kronecker delta (after Duke, Friedlander and Iwaniec)
+      used for the count of lattice points of the sphere in a cap with smooth weights. The
+      formalization uses its own weights (Gaussian in the lattice variable, a smooth bump in the
+      modulus) and does not evaluate the singular series.
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "On the representation of numbers in the form ax² + by² + cz² + dt²"
+    authors:
+      - "H. D. Kloosterman"
+    id: "doi:10.1007/BF02564115"
+    type: "paper"
+    location: "Acta Math. 49 (1926), 407–464"
+    relationship: "background"
+    note: >-
+      Kloosterman's refinement of the circle method for quaternary forms, the origin of the
+      equidistribution of representations by four squares in small regions.
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "Weil Bounds Toolkit"
+    authors:
+      - "Charlie Dorsey"
+    id: "PALOMAR-2026-11-03-000018"
+    type: "other"
+    location: "https://github.com/charliedorsey/weil-bounds-toolkit @ 0f3e4c3"
+    relationship: "uses"
+    note: >-
+      Required as a lake dependency (module rml.weil.contracts) for the Weil bound of Kloosterman
+      sums with squarefree modulus; no code is copied.
+    license: "Apache-2.0"
+    author_endorsement: "n/a"
+
+status:
+  scope: >-
+    Jacobi's four-square theorem for odd N, and the existence of representations of every large
+    odd m by four squares in any cap of fixed angular radius (qualitative: M₀ depends on q and δ
+    and is not made explicit). Not formalized: Jacobi's formula for even N, asymptotic
+    equidistribution with a rate, caps shrinking with m.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        Wrote the Lean development (directory FourSquaresCaps/), the Challenge/Solution pair and
+        the packaging under the author's direction, checked with lean, #print axioms and a
+        comparison of the elaborated Challenge and Solution statements (pp.all) (Lean
+        v4.35.0-rc3, Mathlib c55e6e786f49471c72fbddbec5415808896aec1e). The WZ rational identities
+        were also checked with sympy before formalization.
+      cost:
+        wall_time: "about one day"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "Natural-language instructions in Spanish, directed by the author."
+  spend_usd: "subscription-based"
+  notes: >-
+    The results were chosen by the human author; the Lean development is AI-written under the
+    author's direction and mechanically verified: no sorry, axioms limited to propext,
+    Classical.choice and Quot.sound, identical elaborated statements in the Challenge and the
+    Solution.
+
+fidelity:
+  divergences: >-
+    Jacobi's theorem is stated only for odd N, as Nat.card of the subtype of x : Fin 4 → ℤ with
+    ∑ i, x i ^ 2 = N, equal to 8 ∑_{d ∈ N.divisors} d. The caps statement uses the coordinatewise
+    closeness |βᵢ − √m qᵢ| ≤ δ √m (equivalent, up to constants, to closeness on the sphere) and
+    is restricted to odd m.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Opus 5.5 (AI agent in Claude Code, acting for the author)"
+  notes: >-
+    Agent review by Claude Opus 5.5, distinct from the mechanical verification: the agent checked
+    the statements against the classical theorems and Jacobi's formula on the smallest odd
+    cases by direct enumeration (N = 1, 3, 5, 7, 9, 15, 21: r₄(N) = 8, 32, 48, 64, 104, 192, 256).
+    In the caps statement the hypotheses are not vacuous (q ranges over all unit vectors, δ > 0
+    arbitrary) and the conclusion is not trivial for small δ. The author directed the work and chose the results. No independent human
+    review of the formalization has been performed. The results are classical; no mathematical
+    novelty is claimed.
+
+alignment:
+  namespace: "FourSquaresInCaps"
+  statements:
+    - {source: "Jacobi (1829), via Andrews–Ekhad–Zeilberger (1993): r₄(N) = 8σ(N) for odd N", lean: "FourSquaresInCaps.jacobi_four_squares_odd", module: "FourSquaresCapsChallenge", status: "proved"}
+    - {source: "Kloosterman (1926) / delta method: four squares in caps of fixed radius", lean: "FourSquaresInCaps.four_squares_in_caps", module: "FourSquaresCapsChallenge", status: "proved"}
+
+acknowledgements: >-
+  Mathlib and the Lean community; Charlie Dorsey's Weil Bounds Toolkit.

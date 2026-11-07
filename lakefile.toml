@@ -1,0 +1,30 @@
+name = "four_squares_caps"
+version = "0.1.0"
+defaultTargets = ["FourSquaresCaps", "FourSquaresCapsChallenge", "FourSquaresCapsSolution"]
+requiresModuleSystem = true
+
+[leanOptions]
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0-rc3"
+
+[[require]]
+name = "weil_bounds_toolkit"
+git = "https://github.com/charliedorsey/weil-bounds-toolkit"
+rev = "0f3e4c3010bb0e7c4e514ddb5bd3a0a0e082bf68"
+
+[[lean_lib]]
+name = "FourSquaresCaps"
+globs = ["FourSquaresCaps.+"]
+
+[[lean_lib]]
+name = "FourSquaresCapsChallenge"
+roots = ["FourSquaresCapsChallenge"]
+
+[[lean_lib]]
+name = "FourSquaresCapsSolution"
+roots = ["FourSquaresCapsSolution"]
